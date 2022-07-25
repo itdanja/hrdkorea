@@ -1,0 +1,111 @@
+1. cmd  [ 명령 프롬프트 ]
+
+2.  sqlplus  [ sql 접속 ] 
+
+3. 로그인 [ system , 1234 ]
+
+4. 테이블 생성
+	1. MEMBER_TBL_02 
+	CREATE TABLE MEMBER_TBL_02(
+		CUSTNO NUMBER(6) NOT NULL, 
+		CUSTNAME VARCHAR2(20) , 
+		PHONE VARCHAR2(13) ,
+		ADDRESS VARCHAR2(60) ,
+		JOINDATE DATE , 
+		GRADE CHAR(1) , 
+		CITY CHAR(2) ,
+		PRIMARY KEY ( CUSTNO )
+	);
+	
+	2. MONEY_TBLE_02
+	CREATE TABLE MONEY_TBL_02(
+		CUSTNO NUMBER(6) NOT NULL,
+		SALENOL NUMBER(8) NOT NULL,
+		PCOST NUMBER(8),
+		AMOUNT NUMBER(4),
+		PRICE NUMBER(8),
+		PCODE VARCHAR2(4),
+		SDATE DATE,
+		PRIMARY KEY(CUSTNO, SALENOL)
+	);
+
+5. 레코드 추가  
+	insert into member_tbl_02 values(100001, '김행복', '010-1111-2222', '서울 동대문구 휘경1동', '20151202', 'A', '01');
+	insert into member_tbl_02 values(100002, '이축복', '010-1111-3333', '서울 동대문구 휘경2동', '20151206', 'B', '01');
+	insert into member_tbl_02 values(100003, '장믿음', '010-1111-4444', '울릉군 울릉읍 독도1리', '20151001', 'B', '30');
+	insert into member_tbl_02 values(100004, '최사랑', '010-1111-5555', '울릉군 울릉읍 독도2리', '20151113', 'A', '30');
+	insert into member_tbl_02 values(100005, '진평화', '010-1111-6666', '제주도 제주시 외나무골', '20151225', 'B', '60');
+	insert into member_tbl_02 values(100006, '차공단', '010-1111-7777', '제주도 제주시 감나무골', '20151211', 'C', '60');
+	commit;
+
+	insert into money_tbl_02 values(100001, 20160001, 500, 5, 2500, 'A001', '20160101');
+	insert into money_tbl_02 values(100001, 20160002, 1000, 4, 4000, 'A002', '20160101');
+	insert into money_tbl_02 values(100001, 20160003, 500, 3, 1500, 'A008', '20160101');
+	insert into money_tbl_02 values(100002, 20160005, 500, 1, 500, 'A001', '20160103');
+	insert into money_tbl_02 values(100003, 20160006, 1500, 2, 3000, 'A003', '20160103');
+	insert into money_tbl_02 values(100004, 20160007, 500, 2, 1000, 'A001', '20160104');
+	insert into money_tbl_02 values(100004, 20160008, 300, 1, 300, 'A005', '20160104');
+	insert into money_tbl_02 values(100004, 20160009, 600, 1, 600, 'A006', '20160104');
+	insert into money_tbl_02 values(100004, 20160010, 3000, 1, 3000, 'A007', '20160106');
+	commit;
+
+6. 테이블 확인
+	SELECT * FROM MEMBER_TBL_02;
+	SELECT * FROM MONEY_TBL_02;
+
+7. JOIN : 두 테이블 합치기 [ inner join : 교집합 ]  
+	
+	1. SELECT * FROM 테이블명 JOIN 테이블명 ON 교집합 조건기준
+		select * from member_tbl_02  join money_tbl_02  on member_tbl_02.custno = money_tbl_02.custno;
+		select * from member_tbl_02 A  join money_tbl_02  B on A.custno = B.custno;
+
+[ 결과 ]
+  CUSTNO CUSTNAME                                 PHONE                      ADDRESS                                                                                                   JOINDATE GR CITY     CUSTNO    SALENOL      PCOST     AMOUNT      PRICE PCODE    SDATE
+---------- ---------------------------------------- -------------------------- ------------------------------------------------------------------------------------------------------------------------ -------- -- ---- ---------- ---------- ---------- ---------- ---------- -------- --------
+    100001 김현수                                   010-1111-2222              서울 동대문구 휘경1동                                                                                                    15/12/02 A  01       100001   20160001        500          5       2500 A001     16/01/01
+    100001 김현수                                   010-1111-2222              서울 동대문구 휘경1동                                                                                                    15/12/02 A  01       100001   20160002       1000          4       4000 A002     16/01/01
+    100001 김현수                                   010-1111-2222              서울 동대문구 휘경1동                                                                                                    15/12/02 A  01       100001   20160003        500          3       1500 A008     16/01/01
+    100002 이축복                                   010-1111-3333              서울 동대문구 휘경2동                                                                                                    15/12/06 B  01       100002   20160005        500          1        500 A001     16/01/03
+    100003 장믿음                                   010-1111-4444              울릉군 울릉읍 독도1리                                                                                                    15/10/01 B  30       100003   20160006       1500          2       3000 A003     16/01/03
+    100004 최사랑                                   010-1111-5555              울릉군 울릉읍 독도2리                                                                                                    15/11/13 A  30       100004   20160007        500          2       1000 A001     16/01/04
+    100004 최사랑                                   010-1111-5555              울릉군 울릉읍 독도2리                                                                                                    15/11/13 A  30       100004   20160008        300          1        300 A005     16/01/04
+    100004 최사랑                                   010-1111-5555              울릉군 울릉읍 독도2리                                                                                                    15/11/13 A  30       100004   20160009        600          1        600 A006     16/01/04
+    100004 최사랑                                   010-1111-5555              울릉군 울릉읍 독도2리                                                                                                    15/11/13 A  30       100004   20160010       3000          1       3000 A007     16/01/06
+	
+	2. select 필드명 , 필드명 , 필드명 , 필드명 from member_tbl_02 A join money_tbl_02 B on A.custno = B.custno;
+		select A.custno , A.custname , A.grade , B.PRICE from member_tbl_02 A join money_tbl_02 B on A.custno = B.custno;
+[결과]
+    CUSTNO CUSTNAME                         GR      PRICE
+---------- ---------------------------------------- -- ----------
+    100001 김현수                                   A        2500
+    100001 김현수                                   A        4000
+    100001 김현수                                   A        1500
+    100002 이축복                                   B         500
+    100003 장믿음                                   B        3000
+    100004 최사랑                                   A        1000
+    100004 최사랑                                   A         300
+    100004 최사랑                                   A         600
+    100004 최사랑                                   A        3000
+	
+8. GROUP BY : 레코드 합치기 
+	1. GROUP BY 데이터 동일한 필드명
+	select A.custno , A.custname , A.grade , SUM(B.PRICE)  from member_tbl_02 A join money_tbl_02 B on A.custno = B.custno GROUP BY (A.CUSTNO , A.CUSTNAME , A.GRADE) ORDER BY SUM(B.PRICE) DESC;
+
+9. ORDER BY : 필드 정렬 
+	1. ORDER BY 필드명 (ASC)  : 해당 필드명 기준으로 오름차순 
+	2. ORDER BY 필드명 DESC : 해당 필드명 기준으로 내림차순 
+	select A.custno , A.custname , A.grade , B.PRICE from member_tbl_02 A join money_tbl_02 B on A.custno = B.custno ORDER BY B.PRICE DESC;
+
+
+10. 매출 최종 sql
+	select A.custno , A.custname , A.grade , SUM(B.PRICE)  from member_tbl_02 A join money_tbl_02 B on A.custno = B.custno GROUP BY (A.CUSTNO , A.CUSTNAME , A.GRADE) ORDER BY SUM(B.PRICE) DESC;
+
+  	
+[주의]
+	1. 대소문자 구별X
+	2. ; 기준으로 실행처리
+[참고]
+	1. set linesize 6000;  [ 화면에 보이는 가로 길이 설정 ] 
+[ 중요 ] 
+	1. sql 작성후에 commit;   [ 완료 ] 
+
