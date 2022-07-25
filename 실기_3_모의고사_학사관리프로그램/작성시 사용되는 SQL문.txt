@@ -1,0 +1,100 @@
+CMD :   
+	1.명령어 단위로 끝에 ;
+	2. 키보드 위/아래 방향키 사용 -> 기존에 사용된 코드 표시
+	3. cmd(명령 프롬포트) 가로 길이 늘이기 -> SET LINESIZE 500
+1. 테이블 생성
+CREATE TABLE student_tbl_03( 
+	sno varchar2(6) not null, 
+	sname varchar2(10) ,
+	sphone varchar2(15) , 
+	sgender varchar2(4) , 
+	saddress varchar2(40) , 
+	primary key(sno) 
+);
+	* 테이블 삭제 
+	DROP TABLE student_tbl_03;
+
+2. 샘플 데이터 추가
+insert into student_tbl_03 values( '10101' , '김행복' , '010-1111-2222','M','서울 동대문구 휘경1동');
+insert into student_tbl_03 values( '10102' , '이축복' , '010-1111-3333','F','서울 동대문구 휘경2동');
+insert into student_tbl_03 values( '10103' , '장믿음' , '010-1111-4444','M','울릉군 울릉읍 독도 1리');
+insert into student_tbl_03 values( '10104' , '최사랑' , '010-1111-5555','F','울릉군 울릉읍 독도 2리');
+insert into student_tbl_03 values( '10105' , '진평화' , '010-1111-6666','M','제주도 제주시 외나무골');
+insert into student_tbl_03 values( '10106' , '차공단' , '010-1111-7777','M','제주도 제주시 감나무골');
+
+	* 테이블내 필드명 변경 
+	ALTER TABLE 테이블명 REANME COLUMN 기존필드명 to 새로운필드명;
+
+3. 테이블 생성 
+CREATE TABLE exam_tbl_03( 
+	sno varchar2(6) not null ,
+	ekor number(4) , 
+	emath number(4) , 
+	eeng number(4) , 
+	ehist number(4) , 
+	primary key (sno) 
+);
+
+4. 샘플 데이터 추가 
+insert into exam_tbl_03 values( '10101' , 98 , 91 , 95 , 90 );
+insert into exam_tbl_03 values( '10102' , 87 , 89 , 92 , 82 );
+
+** 5. 트랜잭션 완료 
+SQL> commit;
+
+-- 트랜잭션 : 업무의 최소 단위 [ 여러개의 DML ]
+	TCL : 트랜잭션 제어어
+		1. COMMIT	: 트랜잭션 완료 
+		2. ROLLBACK 	: 트랜잭션 취소 
+	DDL : CREATE , ALTER , DROP , RENAME    [ 트랜잭션 X ] 
+	DML :  SELECT , INSERT , UPDATE , DELETE [ 트랜잭션 O ] 
+	DCL : GRANT , REVOKE [ 트랜잭션 X ] 
+ -------------------------------------------------------------------------------------------------------------
+JOIN 문제 
+	[ 교집합 ]  INNER JOIN 
+	1.SELECT * FROM 테이블명1 , 테이블명2 WHERE 연결필드조건; 
+		[테이블 별칭X]SELECT * FROM student_tbl_03 , exam_tbl_03 where student_tbl_03.sno = exam_tbl_03.sno;
+		[테이블 별칭O]SELECT * FROM student_tbl_03 A , exam_tbl_03 B where A.sno = B.sno;	
+	2.SELECT * FROM 테이블명1 JOIN 테이블명2 ON 연결필드조건
+		SELECT * FROM student_tbl_03 A JOIN  exam_tbl_03 B ON A.sno = B.sno;
+	3.SELECT * FROM 테이블명1 INNER JOIN 테이블명2 ON 연결필드조건 
+		SELECT * FROM student_tbl_03 A INNER JOIN exam_tbl_03 B ON A.sno = B.sno;
+	4.SELECT * FROM 테이블명1 JOIN 테이블명 USING( 필드명 );
+		SELECT * FROM student_tbl_03 A JOIN exam_tbl_03 B USING(sno);
+	5.SELECT * FROM 테이블명1 NATURAL JOIN 테이블명2
+		[ 두 테이블간 필드명이 동일한경우 필드연결 (조건생략) ]
+		SELECT * FROM student_tbl_03 A NATURAL JOIN exam_tbl_03 B;
+
+	[ 합집합 ] FULL OUTER JOIN
+
+	1. SELECT * FROM student_tbl_03 A INNER JOIN exam_tbl_03 B ON A.sno = B.sno;
+	2. 문자열 자르기 : SQL :  SUBSTR( 필드명, 시작 , 개수 )  VS JAVA : substring( 문자열 , 시작인덱스 , 마지막인덱스-1 )
+		학년 : SELECT SUBSTR( A.SNO , 1 , 1 ) 
+		반 : SUBSTR( A.SNO , 2 , 2 )
+		번호 : SUBSTR( A.SNO , 4 , 2 ) 
+	3.  필요한 필드 작성 
+		SELECT SUBSTR( A.SNO , 1 , 1 ) , SUBSTR( A.SNO , 2 , 2 ) , SUBSTR( A.SNO , 4 , 2 ) , A.SNAME , B.EKOR , B.EMATH , B.EENG , B.EHIST  
+
+	* 별칭 
+	SELECT 
+		SUBSTR( A.SNO , 1 , 1 ) 학년 , 
+		SUBSTR( A.SNO , 2 , 2 ) 반 , 
+		SUBSTR( A.SNO , 4 , 2 ) 번호  , 
+		A.SNAME 이름 , 
+		B.EKOR 국어 , 
+		B.EMATH 수학 , 
+		B.EENG 영어 , 
+		B.EHIST 역사 , 
+		( B.EKOR+B.EMATH+B.EENG+B.EHIST ) 합계 ,
+		( B.EKOR+B.EMATH+B.EENG+B.EHIST )/4 평균 ,
+		RANK() OVER( ORDER BY ( NVL(B.EKOR,0) + NVL(B.EMATH,0)+ NVL(B.EENG,0) +NVL(B.EHIST,0) ) DESC ) 순위 
+	FROM 
+		student_tbl_03 A 
+			FULL OUTER JOIN
+		exam_tbl_03 B 
+			ON A.sno = B.sno
+	ORDER BY ( NVL(B.EKOR,0) + NVL(B.EMATH,0)+ NVL(B.EENG,0) + NVL(B.EHIST,0)  ) DESC;
+
+	4. 순위 함수 : RANK
+		RANK() OVER( ORDER BY 필드명 DESC ) : 정렬 필드 기준으로 순위 매기기 
+	5. NULL 치환 : NVL( 필드명 ,  치환값 )
