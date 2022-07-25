@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import DTO.Dto;
+import DTO.ExamDto;
 
 public class Dao {
 
@@ -66,8 +67,8 @@ public class Dao {
 	}
 	
 	// 3. 학생 성적 출력 
-	public ArrayList<  Map< String , String > > getexamlist() {
-		ArrayList<  Map< String , String > > list = new ArrayList<>();
+	public ArrayList<  ExamDto > getexamlist() {
+		ArrayList<  ExamDto > list = new ArrayList<>();
 		String sql = "	SELECT "
 				+ "		SUBSTR( A.SNO , 1 , 1 ) 학년 , "
 				+ "		SUBSTR( A.SNO , 2 , 2 ) 반 , "
@@ -90,19 +91,20 @@ public class Dao {
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while( rs.next() ) {
-				Map< String , String > map = new HashMap<String, String>();
-				map.put( "학년", rs.getString(1));
-				map.put( "반", rs.getString(2));
-				map.put( "번호", rs.getString(3));
-				map.put( "이름", rs.getString(4));
-				map.put( "국어", rs.getInt(5)+"");
-				map.put( "수학", rs.getInt(6)+"");
-				map.put( "영어", rs.getInt(7)+"");
-				map.put( "역사", rs.getInt(8)+"");
-				map.put( "합계", rs.getInt(9)+"");
-				map.put( "평균", rs.getInt(10)+"");
-				map.put( "순위", rs.getInt(11)+"");
-				list.add( map );
+				ExamDto dto = new ExamDto(
+						rs.getString(1) , 
+						rs.getString(2) , 
+						rs.getString(3) , 
+						rs.getString(4) , 
+						rs.getInt(5) , 
+						rs.getInt(6) , 
+						rs.getInt(7) , 
+						rs.getInt(8) , 
+						rs.getInt(9) , 
+						rs.getDouble(10) , 
+						rs.getInt(11) 
+						);
+				list.add( dto );
 			}
 		}catch (Exception e) { System.out.println( e );}
 		return list;
