@@ -15,11 +15,11 @@
 ### ■ 이클립스 셋팅
 #### workspace -> hrdkorea(예시)
 #### tomcat 설정
-#### 톰캣 위치 (바탕화면에도 하나씩 있다) C:\Program Files\Apache Software Foundation\tomcat 9.0
+#### 톰캣 위치  C:\Program Files\Apache Software Foundation\tomcat 9.0
 #### 포트번호 변경 8090 (예시)
 #### 인코딩 설정 utf-8 으로 전부 변경
 #### 모든 셋팅 끝
 ### ■ 오라클 jar 파일 셋팅
 #### 오라클이 설치된 경로를 찾아간다. C:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib
 #### ojdbc6.jar 파일을 ctrl + c
-#### 이클립스의 lib 폴더에 ctrl + v
+#### 이클립스의 lib 폴더에 ctrl + 
