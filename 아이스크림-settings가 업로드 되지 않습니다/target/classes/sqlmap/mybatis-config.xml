@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>		
+	<typeAliases>
+		<!-- lab.service.ProductVO는 너무 기니까 proVO라는 가칭을 지칭함 -->
+		<typeAlias alias="proVO" type="lab.service.ProductVO" />
+	</typeAliases>	
+</configuration>	

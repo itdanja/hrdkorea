@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Product">
+
+	<!-- 조회해온 것들을 담을 수 있는 resultMap -->
+	<!-- mybatis-config.xml에 custVO 있음 -->
+	<!-- column은 DB의 column, id는 pk값, CustomerVO.java와 동일한 프로퍼티명 -->
+	<!-- DB의 값이 어떤 변수와 연결되는지 지정해주는 것 -->
+	<resultMap type="proVO" id="proResult">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+		<result property="type" column="type" />
+		<result property="manufacturer" column="manufacturer" />
+	</resultMap>
+
+	<select id="selectProList" parameterType="proVO"
+		resultMap="proResult">
+		select id, name, price, type, manufacturer
+		from product
+		where 1=1
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="name != null">
+			and name like concat ('%', #{name}, '%')
+		</if>
+		<if test="price != null">
+			and price like concat ('%', #{price}, '%')
+		</if>
+		<if test="type != null">
+			and type = #{type}
+		</if>
+
+		<if test="manufacturer != null">
+			and manufacturer = #{manufacturer}
+		</if>
+	</select>
+
+	<!-- 검색 결과 리스트 반환 -->
+	<select id="searchProductList"
+		resultMap="proResult">
+		select id, name, price, type, manufacturer
+		from product
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="searchType=='id' and keyword != null and keyword != '' ">
+				AND ID like CONCAT ('%', #{keyword}, '%')
+			</if>
+			<if test="searchType=='name' and keyword != null and keyword != '' ">
+				and name like concat ('%', #{keyword}, '%')
+			</if>
+			<if test="searchType=='price' and keyword != null and keyword != '' ">
+				and price like concat ('%', #{keyword}, '%')
+			</if>
+			<if test="searchType=='type' and keyword != null and keyword != '' ">
+				and type like concat ('%', #{keyword}, '%')
+			</if>
+			<if test="searchType=='manufacturer' and keyword != null and keyword != '' ">
+				and manufacturer like concat ('%', #{keyword}, '%')
+			</if>
+		</trim>
+	</select>
+
+	<insert id="insertPro" parameterType="proVO">
+		insert into product (id,
+		name, price, type, manufacturer)
+		values (#{id} , #{name} , #{price},
+		#{type}, #{manufacturer})
+	</insert>
+
+	<delete id="deletePro" parameterType="proVO">
+		delete from product
+		where 1=1
+		<if test="id != null">
+			and id = #{id}
+		</if>
+	</delete>
+
+	<update id="updatePro" parameterType="proVO">
+		update product
+
+		<set>
+			<if test='name != null'>name=#{name},</if>
+			<if test='price != null'>price=#{price},</if>
+			<if test='type != null'>type=#{type},</if>
+			<if test='manufacturer != null'>manufacturer=#{manufacturer},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<select id="selectPro" parameterType="proVO"
+		resultMap="proResult">
+		select id, name, price, type, manufacturer
+		from product
+		where
+		id = #{id}
+	</select>
+
+</mapper>
