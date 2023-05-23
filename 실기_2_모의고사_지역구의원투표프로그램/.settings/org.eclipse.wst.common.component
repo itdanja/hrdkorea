@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="실기_2_모의고사_지역구의원투표프로그램">
+            
+    
+    <wb-module deploy-name="HRD_3">
+                        
+        
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+                        
+        
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-        <property name="context-root" value="실기_2_모의고사_지역구의원투표프로그램"/>
-        <property name="java-output-path" value="/실기_2_모의고사_지역구의원투표프로그램/build/classes"/>
+                        
+        
+        <property name="java-output-path" value="/HRD_3/build/classes"/>
+        <property name="context-root" value="HRD_3"/>
+                    
+    
     </wb-module>
+        
+
 </project-modules>
