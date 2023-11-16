@@ -1,8 +1,8 @@
 
 ### ■ 산업기사 실기시험장 준비 ( 4시간 )
 ### ■ 오라클 설치 
-### 링크 : https://www.oracle.com/database/technologies/xe-prior-release-downloads.html
-### 설치 버전 : Oracle Database 11gR2 Express Edition for Windows x64
+#### 링크 : https://www.oracle.com/database/technologies/xe-prior-release-downloads.html
+#### 설치 버전 : Oracle Database 11gR2 Express Edition for Windows x64
 ### ■ 오라클 확인
 #### cmd
 #### sqlplus
