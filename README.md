@@ -1,5 +1,7 @@
 
 ### ■ 산업기사 실기시험장 준비 ( 4시간 )
+### ■ 오라클 설치 
+### 링크 : https://www.oracle.com/database/technologies/xe-prior-release-downloads.html
 ### ■ 오라클 확인
 #### cmd
 #### sqlplus
