@@ -3,7 +3,7 @@
 ### ■ 오라클 설치 
 #### 링크 : https://www.oracle.com/database/technologies/xe-prior-release-downloads.html
 #### 설치 버전 : Oracle Database 11gR2 Express Edition for Windows x64
-#### 설치 주의사항 : 패스워드는 1234
+#### 설치 주의사항 : 패스워드는 1234    그외 모두 기본
 ### ■ 오라클 확인
 #### cmd
 #### sqlplus
